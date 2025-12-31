@@ -49,10 +49,7 @@
  */
 #define SDE_DEBUG(fmt, ...)                                                \
 	do {                                                               \
-		if (unlikely(drm_debug & DRM_UT_KMS))                      \
-			DRM_DEBUG(fmt, ##__VA_ARGS__); \
-		else                                                       \
-			pr_debug(fmt, ##__VA_ARGS__);                      \
+		no_printk(fmt, ##__VA_ARGS__);                             \
 	} while (0)
 
 /**
@@ -73,10 +70,7 @@
  */
 #define SDE_DEBUG_DRIVER(fmt, ...)                                         \
 	do {                                                               \
-		if (unlikely(drm_debug & DRM_UT_DRIVER))                   \
-			DRM_ERROR(fmt, ##__VA_ARGS__); \
-		else                                                       \
-			pr_debug(fmt, ##__VA_ARGS__);                      \
+		no_printk(fmt, ##__VA_ARGS__);                             \
 	} while (0)
 
 #define SDE_ERROR(fmt, ...) pr_err("[sde error]" fmt, ##__VA_ARGS__)
@@ -170,6 +164,20 @@ enum sde_kms_sui_misr_state {
 	SUI_MISR_NONE,
 	SUI_MISR_ENABLE_REQ,
 	SUI_MISR_DISABLE_REQ
+};
+
+/*
+ * @FRAME_DONE_WAIT_DEFAULT:	waits for frame N pp_done interrupt before
+ *                              triggering frame N+1.
+ * @FRAME_DONE_WAIT_SERIALIZE:	serialize pp_done and ctl_start irq for frame
+ *                              N without next frame trigger wait.
+ * @FRAME_DONE_WAIT_POSTED_START: Do not wait for pp_done interrupt for any
+ *                              frame. Wait will trigger only for error case.
+ */
+enum frame_trigger_mode_type {
+	FRAME_DONE_WAIT_DEFAULT,
+	FRAME_DONE_WAIT_SERIALIZE,
+	FRAME_DONE_WAIT_POSTED_START,
 };
 
 /**
