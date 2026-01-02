@@ -241,8 +241,16 @@ do {									\
 			break;					\
 		cpu_relax();					\
 	}							\
-	smp_acquire__after_ctrl_dep();				\
 	VAL;							\
+})
+#endif
+
+#ifndef smp_cond_load_acquire
+#define smp_cond_load_acquire(ptr, cond_expr) ({		\
+	typeof(*ptr) _val;					\
+	_val = smp_cond_load_relaxed(ptr, cond_expr);		\
+	smp_acquire__after_ctrl_dep();				\
+	_val;							\
 })
 #endif
 
