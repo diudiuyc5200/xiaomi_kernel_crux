@@ -239,7 +239,8 @@ static int msm_minidump_add_header(void)
 	struct elf_phdr *phdr;
 	unsigned int strtbl_off, elfh_size, phdr_off;
 	char *banner;
-
+size_t linux_banner_len = strlen(linux_banner);
+	
 	/* Header buffer contains:
 	 * elf header, MAX_NUM_ENTRIES+4 of section and program elf headers,
 	 * string table section and linux banner.
