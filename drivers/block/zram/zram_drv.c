@@ -2155,7 +2155,10 @@ static void destroy_devices(void)
 static int __init zram_init(void)
 {
 	int ret;
-
+#ifdef CONFIG_HSWAP
+	unsigned int prev_num_devices;
+#endif
+	
 	BUILD_BUG_ON(__NR_ZRAM_PAGEFLAGS > BITS_PER_LONG);
 
 	ret = cpuhp_setup_state_multi(CPUHP_ZCOMP_PREPARE, "block/zram:prepare",
@@ -2179,6 +2182,10 @@ static int __init zram_init(void)
 		return -EBUSY;
 	}
 
+	#ifdef CONFIG_HSWAP
+	prev_num_devices = num_devices;
+#endif
+	
 	while (num_devices != 0) {
 		mutex_lock(&zram_index_mutex);
 		ret = zram_add();
