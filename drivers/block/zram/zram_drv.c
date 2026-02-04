@@ -82,6 +82,29 @@ static inline bool init_done(struct zram *zram)
 	return zram->disksize;
 }
 
+#ifdef CONFIG_HSWAP
+int zram0_free_size(void)
+{
+	struct zram *zram;
+	u64 val = 0;
+
+	if (idr_is_empty(&zram_index_idr))
+		return 0;
+
+	zram = idr_find(&zram_index_idr, 0);
+
+	if (init_done(zram))
+		val += ((zram->disksize >> PAGE_SHIFT) -
+				(u64)atomic64_read(&zram->stats.pages_stored) -
+				(u64)atomic64_read(&zram->stats.same_pages));
+
+	if (val > 0)
+		return val;
+
+	return 0;
+}
+#endif
+
 static inline struct zram *dev_to_zram(struct device *dev)
 {
 	return (struct zram *)dev_to_disk(dev)->private_data;
