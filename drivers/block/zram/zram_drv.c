@@ -2195,6 +2195,10 @@ static int __init zram_init(void)
 		num_devices--;
 	}
 
+	#ifdef CONFIG_HSWAP
+	num_devices = prev_num_devices;
+#endif
+	
 	return 0;
 
 out_error:
