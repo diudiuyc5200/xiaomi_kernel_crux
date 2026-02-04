@@ -1,4 +1,5 @@
 /* Copyright (c) 2018-2020 The Linux Foundation. All rights reserved.
+ * Copyright (C) 2021 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -140,31 +141,31 @@ enum print_reason {
 /* defined for distinguish qc class_a and class_b */
 #define VOL_THR_FOR_QC_CLASS_AB		12300000
 #define COMP_FOR_LOW_RESISTANCE_CABLE	100000
-#define QC_CLASS_A_CURRENT_UA		3600000
-#define HVDCP_CLASS_A_MAX_UA		2500000
-#define HVDCP_CLASS_A_FOR_CP_UA		2000000
+#define QC_CLASS_A_CURRENT_UA		4500000
+#define HVDCP_CLASS_A_MAX_UA		4500000
+#define HVDCP_CLASS_A_FOR_CP_UA		4500000
 #define MAX_PULSE			38
 #define MAX_PLUSE_COUNT_ALLOWED		30
 #define HIGH_NUM_PULSE_THR		12
 #if defined(CONFIG_QPNP_SMB5_NABU)
-#define PD_UNVERIFED_CURRENT           4800000
+#define PD_UNVERIFED_CURRENT           6100000
 #else
-#define PD_UNVERIFED_CURRENT		3000000
+#define PD_UNVERIFED_CURRENT		6100000
 #endif
-#define PD_UNVERIFED_VOLTAGE		4450000
-#define PD_REMOVE_COMP_CURRENT		7000000
+#define PD_UNVERIFED_VOLTAGE		4400000
+#define PD_REMOVE_COMP_CURRENT		9000000
 
 /* QC2.0 voltage UV threshold 7.8V */
-#define QC2_HVDCP_VOL_UV_THR		7800000
+#define QC2_HVDCP_VOL_UV_THR		9900000
 #define CHECK_VBUS_WORK_DELAY_MS	200
-#define UNSTANDARD_HVDCP2_UA		1800000
+#define UNSTANDARD_HVDCP2_UA		4500000
 
 #define BAT_TEMP_COLD			0
-#define BAT_TEMP_COOL			150
-#define BAT_TEMP_HOT			450
+#define BAT_TEMP_COOL			100
+#define BAT_TEMP_HOT			500
 #define BAT_TEMP_TOO_HOT		580
 
-#define TEMP_COOL_RECHARGE_VBAT		4300
+#define TEMP_COOL_RECHARGE_VBAT		4350
 
 /*early attached report power supply changed*/
 #define EARLY_ATTACH_DELAY_MS	20000
@@ -185,9 +186,9 @@ enum print_reason {
 #define ICL_LIMIT_LEVEL_THR		8
 
 /* defined for qc2_unsupported */
-#define QC2_UNSUPPORTED_UA		1800000
+#define QC2_UNSUPPORTED_UA		4500000
 /* defined for HVDCP2 */
-#define HVDCP2_CURRENT_UA		1500000
+#define HVDCP2_CURRENT_UA		4500000
 
 /* defined for charger type recheck */
 #define CHARGER_RECHECK_DELAY_MS	30000
@@ -205,22 +206,22 @@ enum print_reason {
 
 #define SDP_100_MA			100000
 #define SDP_CURRENT_UA			500000
-#define CDP_CURRENT_UA			1500000
+#define CDP_CURRENT_UA			3500000
 #ifdef CONFIG_QPNP_SMB5_NABU
-#define DCP_CURRENT_UA			2000000
+#define DCP_CURRENT_UA			4500000
 #else
-#define DCP_CURRENT_UA                  1600000
+#define DCP_CURRENT_UA                  4500000
 #endif
-#define HVDCP_CURRENT_UA		2800000
-#define HVDCP_CLASS_B_CURRENT_UA		3100000
+#define HVDCP_CURRENT_UA		4500000
+#define HVDCP_CLASS_B_CURRENT_UA		4500000
 #define HVDCP_START_CURRENT_UA_FOR_BQ	500000
-#define TYPEC_DEFAULT_CURRENT_UA	900000
-#define TYPEC_MEDIUM_CURRENT_UA		1500000
-#define TYPEC_HIGH_CURRENT_UA		3000000
+#define TYPEC_DEFAULT_CURRENT_UA	2500000
+#define TYPEC_MEDIUM_CURRENT_UA		3500000
+#define TYPEC_HIGH_CURRENT_UA		4500000
 #define DCIN_ICL_MIN_UA			100000
-#define DCIN_ICL_MAX_UA			1500000
+#define DCIN_ICL_MAX_UA			3500000
 #define DCIN_ICL_STEP_UA		100000
-#define SLOWLY_CHARGING_CURRENT		1000000
+#define SLOWLY_CHARGING_CURRENT		2500000
 #define ADC_CHG_TERM_MASK		32767
 #define HVDCP3P5_40W_CURRENT_UA		4500000
 /*DCIN ICL*/
@@ -255,16 +256,16 @@ enum print_reason {
 #define WARM_VFLOAT_UV			4100000
 
 #define NON_FFC_VFLOAT_VOTER			"NON_FFC_VFLOAT_VOTER"
-#define NON_FFC_VFLOAT_UV			4450000
+#define NON_FFC_VFLOAT_UV			4400000
 
 #define CP_COOL_THRESHOLD		150
-#define CP_WARM_THRESHOLD		450
+#define CP_WARM_THRESHOLD		500
 #define SOFT_JEITA_HYSTERESIS		5
 
 /* used for bq charge pump solution */
-#define MAIN_CHARGER_ICL	2000000
-#define QC3_CHARGER_ICL		500000
-#define QC3P5_CHARGER_ICL	2000000
+#define MAIN_CHARGER_ICL	4500000
+#define QC3_CHARGER_ICL		4500000
+#define QC3P5_CHARGER_ICL	4500000
 
 #define MAIN_CHARGER_STOP_ICL	50000
 #define ESR_WORK_TIME_2S	2000
@@ -277,7 +278,7 @@ struct six_pin_step_data {
 };
 
 #define DEFAULT_FFC_LOW_TBAT	150
-#define DEFAULT_FFC_HIGH_TBAT	450
+#define DEFAULT_FFC_HIGH_TBAT	500
 
 enum esr_work_status {
 	ESR_CHECK_FCC_NOLIMIT,
@@ -638,9 +639,6 @@ struct smb_charger {
 	struct power_supply		*ln_psy;
 	struct power_supply		*halo_psy;
 	struct power_supply		*cp_chip_psy;
-#if (defined CONFIG_BATT_VERIFY_BY_DS28E16 || defined CONFIG_BATT_VERIFY_BY_DS28E16_NABU)
-	struct power_supply		*batt_verify_psy;
-#endif
 	enum power_supply_type		real_charger_type;
 	enum power_supply_type          wireless_charger_type;
 
@@ -1257,7 +1255,7 @@ void smblib_hvdcp_exit_config(struct smb_charger *chg);
 void smblib_apsd_enable(struct smb_charger *chg, bool enable);
 int smblib_force_vbus_voltage(struct smb_charger *chg, u8 val);
 int smblib_get_irq_status(struct smb_charger *chg,
-				union power_supply_propval *val);
+		union power_supply_propval *val);
 #ifdef CONFIG_QPNP_SMB5_NABU
 int smb5_config_iterm(struct smb_charger *chg, int hi_thresh, int low_thresh);
 #endif
