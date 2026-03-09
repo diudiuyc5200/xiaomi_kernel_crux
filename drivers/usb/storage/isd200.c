@@ -1221,6 +1221,7 @@ static int isd200_get_inquiry_data( struct us_data *us )
 		}
 	}
 
+	Done:
 	usb_stor_dbg(us, "Leaving isd200_get_inquiry_data %08X\n", retStatus);
 
 	return(retStatus);
