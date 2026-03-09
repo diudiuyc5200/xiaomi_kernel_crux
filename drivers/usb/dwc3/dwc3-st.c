@@ -294,7 +294,9 @@ of_node_put(child);
 
 	platform_set_drvdata(pdev, dwc3_data);
 	return 0;
-	
+
+	depopulate:
+	of_platform_depopulate(dev);
 err_node_put:
 	of_node_put(child);
 	
