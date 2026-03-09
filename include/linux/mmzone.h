@@ -667,8 +667,13 @@ typedef struct pglist_data {
 	int node_id;
 	wait_queue_head_t kswapd_wait;
 	wait_queue_head_t pfmemalloc_wait;
-	struct task_struct *kswapd;	/* Protected by
-					   mem_hotplug_begin/end() */
+	struct task_struct *kswapd;
+#ifdef CONFIG_MULTIPLE_KSWAPD
+	/*
+	 * Protected by mem_hotplug_begin/end()
+	 */
+	struct task_struct *mkswapd[MAX_KSWAPD_THREADS];
+#endif
 	int kswapd_order;
 	enum zone_type kswapd_classzone_idx;
 
