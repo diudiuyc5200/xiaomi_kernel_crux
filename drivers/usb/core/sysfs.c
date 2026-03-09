@@ -1046,7 +1046,8 @@ static ssize_t interface_authorized_store(struct device *dev,
 {
 	struct usb_interface *intf = to_usb_interface(dev);
 	bool val;
-
+struct kernfs_node *kn;
+	
 	if (strtobool(buf, &val) != 0)
 		return -EINVAL;
 
