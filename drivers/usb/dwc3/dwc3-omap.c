@@ -539,6 +539,8 @@ static int dwc3_omap_probe(struct platform_device *pdev)
 	dwc3_omap_enable_irqs(omap);
 	return 0;
 
+	err2:
+	of_platform_depopulate(dev);
 err1:
 	pm_runtime_put_sync(dev);
 	pm_runtime_disable(dev);
