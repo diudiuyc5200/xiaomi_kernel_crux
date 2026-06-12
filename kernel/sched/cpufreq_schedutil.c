@@ -308,7 +308,7 @@ static unsigned int get_next_freq(struct sugov_policy *sg_policy,
 	 * Use the frequency step below if the calculated frequency is <20%
 	 * higher than it.
 	 */
-	if (mult_frac(100, freq - h_freq, l_freq - h_freq) < 20)
+	if (mult_frac(100, freq - h_freq, l_freq - h_freq) < 30)
 		return h_freq;
 
 	return l_freq;
@@ -398,7 +398,7 @@ static inline bool sugov_cpu_is_busy(struct sugov_cpu *sg_cpu) { return false; }
 #endif /* CONFIG_NO_HZ_COMMON */
 
 #define NL_RATIO 75
-#define DEFAULT_HISPEED_LOAD 85
+#define DEFAULT_HISPEED_LOAD 75
 static void sugov_walt_adjust(struct sugov_cpu *sg_cpu, unsigned long *util,
 			      unsigned long *max)
 {
